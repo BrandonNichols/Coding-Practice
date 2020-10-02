@@ -29,25 +29,31 @@ Longest Univalue Path
 
 class Solution:
         
-    def longestUnivaluePath(self, root):
-        self.current_count = 0
-        self.current_value = 0
+   def longestUnivaluePath(self, root):
         self.highest_count = 0
+        self.current_count = 0
+        self.start_traverse = True
         
-        def longPath(root):
+        def longPath(root, previous_value = root.val):
             
             if root is None:
-                return  
+                return
             
-            if self.current_value == root.val:
-                self.current_count += 1
-                
-                if self.highest_count < self.current_count:
-                    self.highest_count = self.current_count
+            if not self.start_traverse:
+                if previous_value == root.val:
+                    self.current_count += 1
                     
-            self.current_value = root.val
-            longPath(root.left)
-            longPath(root.right)
+                    if self.highest_count < self.current_count:
+                        self.highest_count = self.current_count
+                else:
+                    self.current_count = 0
+                    
+                previous_value = root.value
+            else:
+                self.start_traverse = False
+                    
+            longPath(root.left, previous_value)
+            longPath(root.right, previous_value)
             
             return
         
