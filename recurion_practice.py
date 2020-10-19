@@ -60,3 +60,48 @@ class Solution:
         longPath(root)
         
         return self.highest_count
+
+'''
+Range Sum of BST
+'''
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+'''
+Understand:
+Need to be able to recursively go down binary tree starting from left side to find L. When found return L and add and return only nodes that are between L and R while trying to reach R
+'''
+
+class Solution:
+    def rangeSumBST(self, root, L, R):
+        
+        def rangeSumBSTHelper(root):
+        
+            if root is None:
+                return
+
+            if root.val == L:
+                self.found_L = True
+
+            if root.val == R:
+                self.found_R = True
+                self.sum_val += root.val
+
+            if self.found_L:
+                if root.val >= L and root.val <= R:
+                    self.sum_val += root.val
+
+            if not self.found_L and not self.found_R:
+                rangeSumBSTHelper(root.left)
+                rangeSumBSTHelper(root.right)
+        
+        self.sum_val = 0
+        self.found_L = False
+        self.found_R = False
+        rangeSumBSTHelper(root)
+        return self.sum_val
