@@ -84,24 +84,24 @@ class Solution:
         
             if root is None:
                 return
-
-            if root.val == L:
-                self.found_L = True
-
-            if root.val == R:
-                self.found_R = True
+                
+            if L <= root.val <= R:
                 self.sum_val += root.val
 
-            if self.found_L:
-                if root.val >= L and root.val <= R:
-                    self.sum_val += root.val
-
-            if not self.found_L and not self.found_R:
+            if root.val > L:
                 rangeSumBSTHelper(root.left)
+                
+            if root.val < R:
                 rangeSumBSTHelper(root.right)
+            
         
         self.sum_val = 0
-        self.found_L = False
-        self.found_R = False
         rangeSumBSTHelper(root)
         return self.sum_val
+
+'''
+Review:
+Initially my understanding of this problem was flawed, I thought I had to add the nodes between the left and right node but it turns out I needed to sum up the node values
+that fall inbetween the left and right nodes values. I had a general solution initially but couldn't figure how to properly traverse the binary tree in a such a way to get the
+correct solution I guess because of my misunderstanding of the question.
+'''
